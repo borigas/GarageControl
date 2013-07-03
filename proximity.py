@@ -12,6 +12,8 @@ class Proximity:
 	relay1Pin = 3
 	relay2Pin = 5
 
+	distance = 0
+
 	def rising_callback(self, channel):
 		if GPIO.input(channel):
 			self.risingTime = time.time()
@@ -23,6 +25,7 @@ class Proximity:
 			# 1/10000 seconds * 3.28 ft/m
 			dist = (timeDiff * 10000 * 3.28 / 2) / 29.1
 			print(dist)
+			self.distance = dist
 
 			GPIO.output(self.redPin, True)
 			GPIO.output(self.greenPin, True)
@@ -36,9 +39,15 @@ class Proximity:
 				GPIO.output(self.redPin, False)
 
 	def checkProximity(self):
+		self.distance = 0
 		GPIO.output(self.outputPin, True)
 		time.sleep(0.01)
 		GPIO.output(self.outputPin, False)
+		i = 0
+		while(self.distance == 0 and i < 100):
+			time.sleep(0.01)
+			i += 1
+		return self.distance
 
 	def setup(self):
 		GPIO.setmode(GPIO.BOARD)
@@ -68,7 +77,7 @@ class Proximity:
 		while(True):
 #		for x in range(0, 100):
 			print('--Starting--')
-			self.checkProximity()
+			print(self.checkProximity())
 			time.sleep(1)
 			print('-------------------')
 
