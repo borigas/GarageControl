@@ -35,6 +35,11 @@ class Proximity:
 			else:
 				GPIO.output(self.redPin, False)
 
+	def checkProximity(self):
+		GPIO.output(self.outputPin, True)
+		time.sleep(0.01)
+		GPIO.output(self.outputPin, False)
+
 	def setup(self):
 		GPIO.setmode(GPIO.BOARD)
 
@@ -52,6 +57,10 @@ class Proximity:
 
 
 		GPIO.add_event_detect(self.inputPin, GPIO.BOTH, callback=self.rising_callback)
+	
+	def cleanup(self):
+		time.sleep(0.1)
+		GPIO.cleanup()
 
 	def run(self):
 		GPIO.output(self.outputPin, False)
@@ -59,16 +68,17 @@ class Proximity:
 		while(True):
 #		for x in range(0, 100):
 			print('--Starting--')
-			triggered = True
-			GPIO.output(self.outputPin, True)
-			time.sleep(0.01)
-			GPIO.output(self.outputPin, False)
+			self.checkProximity()
 			time.sleep(1)
 			print('-------------------')
 
-		GPIO.cleanup()
 
 
-prox = Proximity()
-prox.setup()
-prox.run()
+if __name__ == '__main__':
+	prox = Proximity()
+	prox.setup()
+	
+	#prox.run()
+	prox.checkProximity()
+	
+	prox.cleanup()
