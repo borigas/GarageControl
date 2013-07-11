@@ -1,0 +1,10 @@
+- model: garage_app.Door
+  pk: 1
+  fields:
+    name: East Door
+    relayPin: 3
+    sensorTriggerPin: 12
+    sensorEchoPin: 16
+    greenPin: 13
+    redPin: 15
+    bluePin: 11

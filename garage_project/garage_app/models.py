@@ -4,6 +4,12 @@ from django.db import models
 
 class Door(models.Model):
 	name = models.CharField(max_length=200)
+	relayPin = models.IntegerField()
+	sensorTriggerPin = models.IntegerField()
+	sensorEchoPin = models.IntegerField()
+	greenPin = models.IntegerField()
+	redPin = models.IntegerField()
+	bluePin = models.IntegerField()
 
 	def update_status(self):
 		status = Status(door = self, distance = 1.5, isDoorUp = False, isCarPresent = True)
