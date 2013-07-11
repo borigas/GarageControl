@@ -19,8 +19,8 @@ class Sensor(models.Model):
 		return self.distance
 
 	def edge_callback(self, channel):
-		if channel == echoPin:
-			if GPIO.input(echoPin):
+		if channel == self.echoPin:
+			if GPIO.input(self.echoPin):
 				# Is rising edge
 				self.risingTime = time.time()
 			elif self.risingTime != 0:

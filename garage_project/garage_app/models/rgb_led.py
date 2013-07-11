@@ -7,22 +7,22 @@ class RgbLed(models.Model):
 	blueLed = models.ForeignKey(Led, related_name='blueLed')
 
 	def init(self):
-		redLed.init()
-		greenLed.init()
-		blueLed.init()
+		self.redLed.init()
+		self.greenLed.init()
+		self.blueLed.init()
 
 	def all_on(self):
-		redLed.on()
-		greenLed.on()
-		blueLed.on()
+		self.redLed.on()
+		self.greenLed.on()
+		self.blueLed.on()
 
 	def all_off(self):
-		redLed.off()
-		greenLed.off()
-		blueLed.off()
+		self.redLed.off()
+		self.greenLed.off()
+		self.blueLed.off()
 
 	def __unicode__(self):
-		return 'R:' + str(redLed.pin) + ' G:' + str(greenLed.pin) + ' B:' + str(blueLed.pin)
+		return 'R:' + str(self.redLed.pin) + ' G:' + str(self.greenLed.pin) + ' B:' + str(self.blueLed.pin)
 
 	class Meta:
 		app_label = 'garage_app'
