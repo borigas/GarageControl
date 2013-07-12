@@ -6,7 +6,11 @@ class Sensor(models.Model):
 	triggerPin = models.IntegerField()
 	echoPin = models.IntegerField()
 
+	distance = 0
+	risingTime = 0
+
 	def find_distance(self):
+		self.risingTime = 0
 		self.distance = 0
 		GPIO.output(self.triggerPin, True)
 		time.sleep(0.01)
@@ -15,7 +19,6 @@ class Sensor(models.Model):
 		while(self.distance == 0 and i < 100):
 			time.sleep(0.01)
 			i += 1
-		
 		return self.distance
 
 	def edge_callback(self, channel):
@@ -39,7 +42,7 @@ class Sensor(models.Model):
 		GPIO.add_event_detect(self.echoPin, GPIO.BOTH, callback=self.edge_callback)	
 
 	def __unicode__(self):
-		return str(self.triggerPin) + '-' + str(echoPin)
+		return 'Trig: ' + str(self.triggerPin) + ' Echo: ' + str(self.echoPin)
 	
 	class Meta:
 		app_label = 'garage_app'

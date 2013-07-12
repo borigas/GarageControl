@@ -13,10 +13,10 @@ class Led(models.Model):
 		GPIO.output(self.pin, False)
 
 	def off(self):
-		GPIO.output(self.pin, False)
+		GPIO.output(self.pin, True)
 
 	def __unicode__(self):
-		return str(pin)
+		return str(self.pin)
 	
 	class Meta:
 		app_label = 'garage_app'

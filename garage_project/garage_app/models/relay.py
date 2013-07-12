@@ -14,7 +14,7 @@ class Relay(models.Model):
 		GPIO.setup(self.relayPin, GPIO.OUT, initial=GPIO.HIGH)
 
 	def __unicode__(self):
-		return str(relayPin)
+		return 'Pin: ' + str(self.relayPin)
 
 	class Meta:
 		app_label = 'garage_app'

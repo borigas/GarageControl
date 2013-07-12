@@ -10,7 +10,9 @@ class Door(models.Model):
 	rgbLed = models.ForeignKey(RgbLed)
 
 	def update_status(self):
-		dist = sensor.find_distance()
+		self.init()
+
+		dist = self.sensor.find_distance()
 
 		self.rgbLed.all_off()
 
@@ -44,3 +46,6 @@ class Door(models.Model):
 
 	class Meta:
 		app_label = 'garage_app'
+
+
+from status import Status
