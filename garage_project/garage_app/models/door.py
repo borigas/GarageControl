@@ -10,8 +10,6 @@ class Door(models.Model):
 	rgbLed = models.ForeignKey(RgbLed)
 
 	def update_status(self):
-		self.init()
-
 		dist = self.sensor.find_distance()
 
 		self.rgbLed.all_off()
@@ -35,11 +33,6 @@ class Door(models.Model):
 
 			status.save()
 		return dist
-
-	def init(self):
-		self.sensor.init()
-		self.rgbLed.init()
-		self.relay.init()
 
 	def __unicode__(self):
 		return self.name

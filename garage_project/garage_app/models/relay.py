@@ -4,14 +4,15 @@ import RPi.GPIO as GPIO
 class Relay(models.Model):
 	relayPin = models.IntegerField()
 
-	def toggle_state(self):
-		self.state = not self.state
-		GPIO.output(self.relayPin, self.state)
+	def open(self):
+		GPIO.output(self.relayPin, True)
 
-	def init(self):
-		GPIO.setmode(GPIO.BOARD)
-		self.state = True
-		GPIO.setup(self.relayPin, GPIO.OUT, initial=GPIO.HIGH)
+	def close(self):
+		GPIO.output(self.relayPin, False)
+
+	def init_gpio(self):
+		if self.relayPin != 0:
+			GPIO.setup(self.relayPin, GPIO.OUT, initial=GPIO.HIGH)
 
 	def __unicode__(self):
 		return 'Pin: ' + str(self.relayPin)

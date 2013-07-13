@@ -6,11 +6,6 @@ class RgbLed(models.Model):
 	greenLed = models.ForeignKey(Led, related_name='greenLed')
 	blueLed = models.ForeignKey(Led, related_name='blueLed')
 
-	def init(self):
-		self.redLed.init()
-		self.greenLed.init()
-		self.blueLed.init()
-
 	def all_on(self):
 		self.redLed.on()
 		self.greenLed.on()

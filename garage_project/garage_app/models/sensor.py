@@ -3,6 +3,8 @@ import time
 import RPi.GPIO as GPIO
 
 class Sensor(models.Model):
+	CallbackChannels = list()
+
 	triggerPin = models.IntegerField()
 	echoPin = models.IntegerField()
 
@@ -35,11 +37,15 @@ class Sensor(models.Model):
 				self.distance = (timeDiff * 10000 * 3.28 / 2) / 29.1
 			
 	
-	def init(self):
-		GPIO.setmode(GPIO.BOARD)
-		GPIO.setup(self.triggerPin, GPIO.OUT, initial=GPIO.LOW)
-		GPIO.setup(self.echoPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-		GPIO.add_event_detect(self.echoPin, GPIO.BOTH, callback=self.edge_callback)	
+	def init_gpio(self):
+		# Call from post_init signal
+		# Check if this pk has been initialized. If not, initialize gpio
+		if self.triggerPin != 0 and self.echoPin != 0:
+			GPIO.setup(self.triggerPin, GPIO.OUT, initial=GPIO.LOW)
+			GPIO.setup(self.echoPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+			if not self.echoPin in Sensor.CallbackChannels:
+				GPIO.add_event_detect(self.echoPin, GPIO.BOTH, callback=self.edge_callback)
+				Sensor.CallbackChannels.append(self.echoPin)
 
 	def __unicode__(self):
 		return 'Trig: ' + str(self.triggerPin) + ' Echo: ' + str(self.echoPin)
