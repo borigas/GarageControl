@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_init
 import time
 import RPi.GPIO as GPIO
 
@@ -38,8 +39,8 @@ class Sensor(models.Model):
 			
 	
 	def init_gpio(self):
-		# Call from post_init signal
 		# Check if this pk has been initialized. If not, initialize gpio
+		print("Init GPIO")
 		if self.triggerPin != 0 and self.echoPin != 0:
 			GPIO.setup(self.triggerPin, GPIO.OUT, initial=GPIO.LOW)
 			GPIO.setup(self.echoPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
