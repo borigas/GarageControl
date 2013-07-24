@@ -12,6 +12,8 @@ class Sensor(models.Model):
 	distance = 0
 	risingTime = 0
 
+	initialized = False
+
 	def find_distance(self):
 		self.risingTime = 0
 		self.distance = 0
@@ -34,19 +36,18 @@ class Sensor(models.Model):
 				timeDiff = time.time() - self.risingTime
 				self.risingTime = 0
 
-				# 3.28 ft/m
-				self.distance = (timeDiff * 10000 * 3.28 / 2) / 29.1
+				# time * 340 m/s * 3.28 ft/m / 2
+				self.distance = timeDiff * 340 * 3.28 / 2
 			
 	
 	def init_gpio(self):
-		# Check if this pk has been initialized. If not, initialize gpio
-		print("Init GPIO")
-		if self.triggerPin != 0 and self.echoPin != 0:
+		if self.triggerPin != None and self.triggerPin != 0 and self.echoPin != None and self.echoPin != 0 and not self.initialized:
 			GPIO.setup(self.triggerPin, GPIO.OUT, initial=GPIO.LOW)
 			GPIO.setup(self.echoPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 			if not self.echoPin in Sensor.CallbackChannels:
 				GPIO.add_event_detect(self.echoPin, GPIO.BOTH, callback=self.edge_callback)
 				Sensor.CallbackChannels.append(self.echoPin)
+			self.initialized = True
 
 	def __unicode__(self):
 		return 'Trig: ' + str(self.triggerPin) + ' Echo: ' + str(self.echoPin)

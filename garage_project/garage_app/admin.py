@@ -1,5 +1,10 @@
 from django.contrib import admin
-from garage_app.models import Door, Status, Led, RgbLed, Sensor, Relay
+from garage_app.models.door import Door
+from garage_app.models.status import Status
+from garage_app.models.led import Led
+from garage_app.models.rgb_led import RgbLed
+from garage_app.models.sensor import Sensor
+from garage_app.models.relay import Relay
 
 
 class DoorAdmin(admin.ModelAdmin):
