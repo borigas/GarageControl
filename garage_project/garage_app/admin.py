@@ -9,11 +9,19 @@ from garage_app.models.relay import Relay
 
 class DoorAdmin(admin.ModelAdmin):
 	list_display = ['name']
-	actions = ['update_statuses']
+	actions = ['update_statuses', 'open', 'close']
 
 	def update_statuses(self, request, queryset):
 		for door in queryset:
 			door.update_status()
+
+	def open(self, request, queryset):
+		for door in queryset:
+			door.open()
+
+	def close(self, request, queryset):
+		for door in queryset:
+			door.close()
 
 admin.site.register(Door, DoorAdmin)
 

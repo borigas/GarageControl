@@ -2,6 +2,13 @@ import RPi.GPIO as GPIO
 from django.db import models
 from django.db.models.signals import post_init
 
+from door import Door
+from led import Led
+from rgb_led import RgbLed
+from sensor import Sensor
+from relay import Relay
+from status import Status
+
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
