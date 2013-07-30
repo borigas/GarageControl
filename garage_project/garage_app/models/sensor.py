@@ -44,9 +44,15 @@ class Sensor(models.Model):
 		if self.triggerPin != None and self.triggerPin != 0 and self.echoPin != None and self.echoPin != 0 and not self.initialized:
 			GPIO.setup(self.triggerPin, GPIO.OUT, initial=GPIO.LOW)
 			GPIO.setup(self.echoPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-			if not self.echoPin in Sensor.CallbackChannels:
-				GPIO.add_event_detect(self.echoPin, GPIO.BOTH, callback=self.edge_callback)
-				Sensor.CallbackChannels.append(self.echoPin)
+			if self.echoPin in Sensor.CallbackChannels:
+				# Already setup echo pin. Remove it 1st
+				GPIO.remove_event_detect(self.echoPin)
+				Sensor.CallbackChannels.remove(self.echoPin)
+
+			# Setup echo pin edge callback
+			GPIO.add_event_detect(self.echoPin, GPIO.BOTH, callback=self.edge_callback)
+			Sensor.CallbackChannels.append(self.echoPin)
+
 			self.initialized = True
 
 	def __unicode__(self):

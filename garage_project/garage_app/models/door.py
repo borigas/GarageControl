@@ -37,23 +37,28 @@ class Door(models.Model):
 
 		status.save()
 
-		return dist
+		return status
 
 	def _toggle_door(self, expectedIsDoorUp):
 		from status import Status
-		self.update_status()
-		status = Status.objects.filter(door = self).latest()
+		status = self.update_status()
 		if not status.isError and expectedIsDoorUp == status.isDoorUp:
 			self.relay.close()
 			sleep(0.010)
 			self.relay.open()
 			# Log change
+			print("Door toggled to Open=" + str(not expectedIsDoorUp))
+			return True
+		else:
+			# Log that we didn't change
+			print("Door not toggled to Open=" + str(not expectedIsDoorUp))
+			return False
 	
 	def open(self):
-		self._toggle_door(False)
+		return self._toggle_door(False)
 	
 	def close(self):
-		self._toggle_door(True)
+		return self._toggle_door(True)
 		
 
 	def __unicode__(self):

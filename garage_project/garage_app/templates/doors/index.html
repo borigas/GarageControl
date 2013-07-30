@@ -1,0 +1,29 @@
+{% if door_list %}
+  <table>
+    <tr>
+      <th>Door</th>
+      <th>Distance</th>
+      <th>Is Open?</th>
+      <th>Is Car Present?</th>
+      <th>Is Error?</th>
+      <th>Last Update</th>
+    </tr>
+    {% for door in door_list %}
+      <tr>
+        <td>{{ door.name }}</td>
+	{% if door.status %}
+        <td>{{ door.status.distance|floatformat:2 }}</td>
+        <td>{{ door.status.isDoorUp }}</td>
+        <td>{{ door.status.isCarPresent }}</td>
+        <td>{{ door.status.isError }}</td>
+	<td>{{ door.status.statusDate }}</td>
+	<td><a href="{% url 'update' door.id %}">Update</a></td>
+	<td><a href="{% url 'open' door.id %}">Open</a></td>
+	<td><a href="{% url 'close' door.id %}">Close</a></td>
+	{% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <p>No doors available</p>
+{% endif %}
