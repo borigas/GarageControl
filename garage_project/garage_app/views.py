@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from garage_app.models.door import Door
@@ -15,16 +15,19 @@ def index(request):
 	return render(request, 'doors/index.html', context)
 
 def update(request, door_id):
+	print("Update")
 	door = get_object_or_404(Door, pk=door_id)
-	result = door.update_status()
-	return HttpResponse(str(result))
+	status = door.update_status()
+	return redirect('index')
 
 def open(request, door_id):
+	print("Open")
 	door = get_object_or_404(Door, pk=door_id)
 	result = door.open()
 	return HttpResponse(str(result))
 
 def close(request, door_id):
+	print("Close")
 	door = get_object_or_404(Door, pk=door_id)
 	result = door.close()
 	return HttpResponse(str(result))
