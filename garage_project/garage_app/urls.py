@@ -7,4 +7,5 @@ urlpatterns = patterns('',
 	url(r'^doors/(?P<door_id>\d+)/update/$', views.update, name='update'),
 	url(r'^doors/(?P<door_id>\d+)/open/$', views.open, name='open'),
 	url(r'^doors/(?P<door_id>\d+)/close/$', views.close, name='close'),
+	url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
 )
