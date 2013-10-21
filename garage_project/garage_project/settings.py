@@ -1,25 +1,30 @@
 # Django settings for djangosite project.
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+# Import private settings from settings_local.py
+from settings_private import *
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
+### Template for private settings ###
+#DEBUG = True
+#TEMPLATE_DEBUG = DEBUG
 
-MANAGERS = ADMINS
+#ADMINS = (
+#    # ('Your Name', 'your_email@example.com'),
+#)
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'garage',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': 'garage_db',
-        'PASSWORD': 'garage_db_passwd',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
-}
+#MANAGERS = ADMINS
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'garage',                      # Or path to database file if using sqlite3.
+#        # The following settings are not used with sqlite3:
+#        'USER': 'garage_db',
+#        'PASSWORD': 'garage_db_passwd',
+#        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#        'PORT': '',                      # Set to empty string for default.
+#    }
+#}
+### End Template for private settings ###
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
