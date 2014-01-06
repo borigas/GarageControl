@@ -38,21 +38,27 @@ class Door(models.Model):
 		from status import Status
 		dist = self.sensor.find_distance()
 
-		self.rgbLed.all_off()
+#		self.rgbLed.all_off()
 
 		status = Status(door = self, distance = dist)
 
 		if dist > 20 or dist == 0:
 			# Bad reading
 			self.rgbLed.blueLed.on()
+			self.rgbLed.redLed.off()
+			self.rgbLed.greenLed.off()
 			status.isError = True
 		else:
 			if dist > 3:
 				status.isDoorUp = False
 				self.rgbLed.greenLed.on()
+				self.rgbLed.redLed.off()
+				self.rgbLed.blueLed.off()
 			else:
 				status.isDoorUp = True
 				self.rgbLed.redLed.on()
+				self.rgbLed.greenLed.off()
+				self.rgbLed.blueLed.off()
 
 			if dist > 6:
 				status.isCarPresent = False
