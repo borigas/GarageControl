@@ -11,6 +11,30 @@ class Door(models.Model):
 	rgbLed = models.ForeignKey(RgbLed)
 
 	def update_status(self):
+		status = self.find_status()
+		status.save()
+		return status
+
+	def monitor_status(self):
+		from status import Status
+
+		saveNew = False
+		status = self.find_status()
+		recentStatuses = Status.objects.filter(door=self).order_by('-statusDate')[:2]
+		# If the last 2 match, we don't need to save a new one. We can just update the time on the newest one
+		saveNew = recentStatuses.count() < 2 or not status.areEquivalentStates(recentStatuses[0]) or not status.areEquivalentStates(recentStatuses[1])
+		if saveNew:
+			print "Saving new status"
+			status.save()
+			return status
+		else:
+			print "Updating old status"
+			recentStatuses[0].statusDate = status.statusDate
+			recentStatuses[0].distance = status.distance
+			recentStatuses[0].save()
+			return recentStatuses[0]
+
+	def find_status(self):
 		from status import Status
 		dist = self.sensor.find_distance()
 
@@ -34,8 +58,6 @@ class Door(models.Model):
 				status.isCarPresent = False
 			else:
 				status.isCarPresent = True
-
-		status.save()
 
 		return status
 

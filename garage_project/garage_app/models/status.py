@@ -14,5 +14,8 @@ class Status(models.Model):
 	isError = models.BooleanField(default=False)
 	statusDate = models.DateTimeField(auto_now_add=True)
 
+	def areEquivalentStates(self, otherState):
+		return self.isDoorUp == otherState.isDoorUp and self.isCarPresent == otherState.isCarPresent and self.isError == otherState.isError
+
 	def __unicode__(self):
 		return str(self.distance)
