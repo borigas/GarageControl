@@ -2,6 +2,9 @@
 
 import os
 import sys
+import logging
+
+logging.basicConfig(filename='/home/pi/logs/status_monitor_python.log',level=logging.DEBUG)
 
 path = os.path.dirname(os.path.abspath(__file__))
 if path not in sys.path:
@@ -11,7 +14,11 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'garage_project.settings'
 
 from garage_app.models.door import Door
 while True:
-	for door in Door.objects.all():
+	try:
+		for door in Door.objects.all():
 		door.monitor_status()
+	except Exception as e:
+		print e
+		logging.Exception("Error monitoring status: %s", e)
 
 print("Done")
